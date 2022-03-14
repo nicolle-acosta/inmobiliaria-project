@@ -10,7 +10,8 @@
 </head>
 
 <body>
-  <div id="plano">
+  
+<div id="plano">
     <img class="img_1" src="img_planos/Fondo.jpg" alt="">
     <!-- INICIA SVG -->
     <svg class="img_1" id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4025.28 1867.8">
@@ -290,6 +291,8 @@
     </svg>
     <!-- FINALIZA SVG -->
   </div>
+
+  
   <div class="container-all" id="modal">
     <div class="popup">
       <div class="contenedor-btn-cerrar">
@@ -315,6 +318,44 @@
     </div>
   </div>
 
+  
+
+  <script>
+    function encontrar() { 
+      const hero_1 = document.getElementsByClassName("hero");
+      hero_1.style.display = "none";
+      const plano_rinco = document.getElementsByClassName("plano-rinconada");
+      plano_rinco.style.display = "block";
+/*
+      const data = await traerDatos();
+      let info_lote;
+      console.log(data);
+
+      data.forEach(item => {
+        const { arrayLotes } = item;
+        arrayLotes.forEach(item => {
+          const { nombreLote } = item;
+          if (nombreLote == id) {
+            info_lote = item;
+            console.log(item);
+            document.getElementById("nombre_lote").innerHTML = "LOTE "+info_lote.nombreLote;
+            document.getElementById("area").innerHTML = info_lote.area+"m2";
+            document.getElementById("precio").innerHTML = "S/."+info_lote.precio;
+            document.getElementById("estado").innerHTML = info_lote.estado;
+          }
+
+        })
+      });*/
+      
+    }
+
+    async function traerDatos() {
+            const request = await fetch("data.json");
+            const response = await request.json();
+            return response;
+        }
+
+  </script>
 
 </body>
 

@@ -74,3 +74,21 @@
     width: 100%;
 }
 
+.hero{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0,0.5);
+    display: block;
+    font-size: 20px;
+}
+
+.plano-rinconada{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0,0.5);
+    display:none ;
+    font-size: 20px;
+}
+

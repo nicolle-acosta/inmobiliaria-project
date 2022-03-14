@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="md:w-2/3">
+    
+    <h1 class="text-center text-2xl p-5 bg-green-400">Menu Administrador</h1>
+    <div class="grid grid-cols-2 gap-4 p-10 ">
+        <span>Manzana: </span>
+        <input id="manzana" type="text" class="bg-slate-200 rounded">
+        <span>Lote: </span>
+        <input id="lote" type="text" class="bg-slate-200 rounded">
+    </div>
+    <button onclick="buscar()" class="bg-green-400 p-2 block mx-auto hover:bg-green-500 rounded mb-8">Buscar lote</button>
+    <hr>
+    <p id="nombre" class="text-center my-2 text-lg font-medium">Lote _-_</p>
+    <div class="grid grid-cols-2 gap-4 px-10 py-5 ">
+        <span>Area: </span>
+        <input id="area-i" type="text" class="bg-slate-200 rounded">
+        <span>Precio: </span>
+        <input id="precio-i" type="text" class="bg-slate-200 rounded">
+        <span>Estado: </span>
+        <input id="estado-i" type="text" class="bg-slate-200 rounded">
+    </div>
+    <button onclick="guardar()" class="bg-green-400 p-2 block mx-auto hover:bg-green-500 rounded mb-8">Guardar</button>
+
+    <script>
+
+        async function buscar(){
+            const mz = document.getElementById("manzana").value;
+            const lt = document.getElementById("lote").value;
+            let lote_buscado = mz + '-' +lt;
+            console.log(lote_buscado);//funciona uwu
+            const data = await traerDatos();
+            console.log(data);
+            let info_lote;//aqui se almacena la info del lote buscado
+            
+            data.forEach(item => {
+            const { arrayLotes } = item;
+            arrayLotes.forEach(item => {
+              const { nombreLote } = item;
+              if (nombreLote == lote_buscado) {
+                info_lote = item;
+                console.log(item);
+                document.getElementById("nombre").innerHTML = "LOTE "+info_lote.nombreLote;
+                document.getElementById("area-i").value = info_lote.area;
+                document.getElementById("precio-i").value = info_lote.precio;
+                document.getElementById("estado-i").value = info_lote.estado;
+              }
+    
+            })
+            });
+        }
+
+        async function guardar(){
+            const mz = document.getElementById("manzana").value;
+            const lt = document.getElementById("lote").value;
+            let lote_buscado = mz + '-' +lt;
+
+            const area_lt = document.getElementById("area-i").value;
+            const precio_lt = document.getElementById("precio-i").value;
+            const estado_lt = document.getElementById("estado-i").value;
+
+            //actualizar el objeto en data.json (FALTA)
+            const data = await traerDatos();
+            console.log(data);
+
+            data.forEach(element => {
+            const { arrayLotes } = element;
+            arrayLotes.forEach(element => {
+              const { nombreLote } = element;
+              if (nombreLote == lote_buscado) {
+                element.area = area_lt;
+                console.log(element.area)
+                
+                const data2 = require('data.json');
+                console.log(data2);
+                
+                //const fs = require("fs");
+
+                // 1. get the json data
+                // This is string data
+                //const fileData = fs.readFileSync("data.json", "utf8")
+                // Use JSON.parse to convert string to JSON Object
+                //const jsonData = JSON.parse(fileData)
+                //console.log(jsonData);
+                // 2. update the value of one key
+                //jsonData["survival"] = "online"
+
+                // 3. write it back to your json file
+                //fs.writeFile("./serverStatus.json", JSON.stringify(jsonData))
+
+
+              }
+    
+            })
+            });
+        }
+
+        /*EMPIEZA traerdatos() de json*/   
+        async function traerDatos() {
+            const request = await fetch("data.json");
+            const response = await request.json();
+            return response;
+        }
+        /*FINALIZA traerdatos() de json*/  
+
+        const plano = document.getElementById("plano");
+        plano.onclick = e => {
+          e.preventDefault();
+          if (e.target.id != "banner") {
+            if (e.target.classList.contains("text")) {
+              console.log(e.target.id);
+              abrir(e.target.id);
+            }
+    
+          }
+        }
+         
+    
+        async function abrir(id) {
+          const modal = document.getElementById("modal");
+          modal.style.display = "block";
+    
+          const data = await traerDatos();
+          let info_lote;//aqui se almacena la info del lote buscado 
+          
+          console.log(data);
+    
+          data.forEach(item => {
+            const { arrayLotes } = item;
+            arrayLotes.forEach(item => {
+              const { nombreLote } = item;
+              if (nombreLote == id) {
+                info_lote = item;
+                console.log(item);
+                document.getElementById("nombre_lote").innerHTML = "LOTE "+info_lote.nombreLote;
+                document.getElementById("area").innerHTML = info_lote.area+"m2";
+                document.getElementById("precio").innerHTML = "S/."+info_lote.precio;
+                document.getElementById("estado").innerHTML = info_lote.estado;
+              }
+    
+            })
+          });
+    
+    
+        }
+        /*FINALIZA ABRIR*/
+    
+        function cerrar() {
+          document.getElementById("modal").style.display = "none";
+        }
+    
+        function volver() {
+        window.open("../index.html", "_self");        
+        }
+    
+      </script>
+
+</body>
+</html>
